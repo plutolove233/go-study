@@ -1,0 +1,4 @@
+mode: set
+split/split.go:11.43,14.13 2 1
+split/split.go:19.2,20.8 2 1
+split/split.go:14.13,18.3 3 1

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package book;
+
+option go_package = "github.com/Q1mi/demo/proto/book";
+
+message price {
+    int64 marketPrice = 1;
+    int64 salePrice = 2;
+}
