@@ -1,0 +1,12 @@
+Name: user-api
+Host: 0.0.0.0
+Port: 8888
+Mysql:
+  DataSource: root:root@tcp(localhost:3306)/go_zero_demo?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+CacheRedis:
+  - Host: 127.0.0.1:6379
+    Pass: "123456"
+    Type: node
+Auth:
+  AccessSecret: d3a5c5c29c1130bddf55b8cda7ac770b9c085f0fe0b1c1ce3c566b90c78769d4
+  AccessExpire: 3600
