@@ -22,11 +22,11 @@ func main() {
 		}
 	}(xClient)
 
-	req := &rpcx.Request{
+	req := &rpcx.Args{
 		A: 10,
 		B: 20,
 	}
-	resp := &rpcx.Response{}
+	resp := &rpcx.Reply{}
 
 	err := xClient.Call(context.Background(), "Add", req, resp)
 	if err != nil {

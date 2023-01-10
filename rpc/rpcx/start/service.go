@@ -10,6 +10,7 @@ import (
 var addr = flag.String("addrCliet", "localhost:8972", "server address")
 
 func main() {
+	fmt.Println("service start...")
 	flag.Parse()
 	s := server.NewServer()
 	err := s.Register(new(rpcx.Arith), "")
@@ -22,5 +23,4 @@ func main() {
 		fmt.Println("service start failed, err = ", err.Error())
 		return
 	}
-	fmt.Println("service start...")
 }
