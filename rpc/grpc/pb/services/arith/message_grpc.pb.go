@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.21.4
-// source: message.proto
+// source: services/arith/message.proto
 
-package Arith
+package arith
 
 import (
 	context "context"
@@ -137,5 +137,5 @@ var ArithService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "message.proto",
+	Metadata: "services/arith/message.proto",
 }

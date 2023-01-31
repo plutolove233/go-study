@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "models/hello.proto";
+
+option go_package = "grpc-demo/pb/hello";
+
+// server send stream data to client
+service ServerStream{
+    rpc SayHi(hello.HelloRequest) returns (stream hello.HelloResponse);
+}
+
+// client send stream data to server
+service ClientStream{
+    rpc SayHi(stream hello.HelloRequest) returns (hello.HelloResponse);
+}

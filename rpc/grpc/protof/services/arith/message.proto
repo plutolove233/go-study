@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "pb/Arith";
+option go_package = "pb/arith";
 
 service ArithService{
   rpc Add(ArithRequest) returns (ArithResponse);

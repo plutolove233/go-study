@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package hello;
+
+option go_package = "grpc-demo/pb/models";
+
+message HelloRequest{
+    string name = 1;
+}
+
+message HelloResponse{
+    string reply = 1;
+}

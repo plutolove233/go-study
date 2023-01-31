@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.28.1
 // 	protoc        v3.21.4
-// source: message.proto
+// source: services/arith/message.proto
 
-package Arith
+package arith
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -32,7 +32,7 @@ type ArithRequest struct {
 func (x *ArithRequest) Reset() {
 	*x = ArithRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_proto_msgTypes[0]
+		mi := &file_services_arith_message_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -45,7 +45,7 @@ func (x *ArithRequest) String() string {
 func (*ArithRequest) ProtoMessage() {}
 
 func (x *ArithRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_message_proto_msgTypes[0]
+	mi := &file_services_arith_message_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +58,7 @@ func (x *ArithRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ArithRequest.ProtoReflect.Descriptor instead.
 func (*ArithRequest) Descriptor() ([]byte, []int) {
-	return file_message_proto_rawDescGZIP(), []int{0}
+	return file_services_arith_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ArithRequest) GetA() int32 {
@@ -86,7 +86,7 @@ type ArithResponse struct {
 func (x *ArithResponse) Reset() {
 	*x = ArithResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_message_proto_msgTypes[1]
+		mi := &file_services_arith_message_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -99,7 +99,7 @@ func (x *ArithResponse) String() string {
 func (*ArithResponse) ProtoMessage() {}
 
 func (x *ArithResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_message_proto_msgTypes[1]
+	mi := &file_services_arith_message_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -112,7 +112,7 @@ func (x *ArithResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ArithResponse.ProtoReflect.Descriptor instead.
 func (*ArithResponse) Descriptor() ([]byte, []int) {
-	return file_message_proto_rawDescGZIP(), []int{1}
+	return file_services_arith_message_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ArithResponse) GetC() int32 {
@@ -122,42 +122,43 @@ func (x *ArithResponse) GetC() int32 {
 	return 0
 }
 
-var File_message_proto protoreflect.FileDescriptor
+var File_services_arith_message_proto protoreflect.FileDescriptor
 
-var file_message_proto_rawDesc = []byte{
-	0x0a, 0x0d, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22,
-	0x2a, 0x0a, 0x0c, 0x41, 0x72, 0x69, 0x74, 0x68, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x0c, 0x0a, 0x01, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x61, 0x12, 0x0c, 0x0a,
-	0x01, 0x62, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x62, 0x22, 0x1d, 0x0a, 0x0d, 0x41,
-	0x72, 0x69, 0x74, 0x68, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0c, 0x0a, 0x01,
-	0x63, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x63, 0x32, 0x5a, 0x0a, 0x0c, 0x41, 0x72,
-	0x69, 0x74, 0x68, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x24, 0x0a, 0x03, 0x41, 0x64,
-	0x64, 0x12, 0x0d, 0x2e, 0x41, 0x72, 0x69, 0x74, 0x68, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x0e, 0x2e, 0x41, 0x72, 0x69, 0x74, 0x68, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x24, 0x0a, 0x03, 0x4d, 0x75, 0x6c, 0x12, 0x0d, 0x2e, 0x41, 0x72, 0x69, 0x74, 0x68, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0e, 0x2e, 0x41, 0x72, 0x69, 0x74, 0x68, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x0a, 0x5a, 0x08, 0x70, 0x62, 0x2f, 0x41, 0x72, 0x69,
-	0x74, 0x68, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+var file_services_arith_message_proto_rawDesc = []byte{
+	0x0a, 0x1c, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2f, 0x61, 0x72, 0x69, 0x74, 0x68,
+	0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x2a,
+	0x0a, 0x0c, 0x41, 0x72, 0x69, 0x74, 0x68, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0c,
+	0x0a, 0x01, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x61, 0x12, 0x0c, 0x0a, 0x01,
+	0x62, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x62, 0x22, 0x1d, 0x0a, 0x0d, 0x41, 0x72,
+	0x69, 0x74, 0x68, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0c, 0x0a, 0x01, 0x63,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x63, 0x32, 0x5a, 0x0a, 0x0c, 0x41, 0x72, 0x69,
+	0x74, 0x68, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x24, 0x0a, 0x03, 0x41, 0x64, 0x64,
+	0x12, 0x0d, 0x2e, 0x41, 0x72, 0x69, 0x74, 0x68, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x0e, 0x2e, 0x41, 0x72, 0x69, 0x74, 0x68, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x24, 0x0a, 0x03, 0x4d, 0x75, 0x6c, 0x12, 0x0d, 0x2e, 0x41, 0x72, 0x69, 0x74, 0x68, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0e, 0x2e, 0x41, 0x72, 0x69, 0x74, 0x68, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x0a, 0x5a, 0x08, 0x70, 0x62, 0x2f, 0x61, 0x72, 0x69, 0x74,
+	0x68, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_message_proto_rawDescOnce sync.Once
-	file_message_proto_rawDescData = file_message_proto_rawDesc
+	file_services_arith_message_proto_rawDescOnce sync.Once
+	file_services_arith_message_proto_rawDescData = file_services_arith_message_proto_rawDesc
 )
 
-func file_message_proto_rawDescGZIP() []byte {
-	file_message_proto_rawDescOnce.Do(func() {
-		file_message_proto_rawDescData = protoimpl.X.CompressGZIP(file_message_proto_rawDescData)
+func file_services_arith_message_proto_rawDescGZIP() []byte {
+	file_services_arith_message_proto_rawDescOnce.Do(func() {
+		file_services_arith_message_proto_rawDescData = protoimpl.X.CompressGZIP(file_services_arith_message_proto_rawDescData)
 	})
-	return file_message_proto_rawDescData
+	return file_services_arith_message_proto_rawDescData
 }
 
-var file_message_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_message_proto_goTypes = []interface{}{
+var file_services_arith_message_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_services_arith_message_proto_goTypes = []interface{}{
 	(*ArithRequest)(nil),  // 0: ArithRequest
 	(*ArithResponse)(nil), // 1: ArithResponse
 }
-var file_message_proto_depIdxs = []int32{
+var file_services_arith_message_proto_depIdxs = []int32{
 	0, // 0: ArithService.Add:input_type -> ArithRequest
 	0, // 1: ArithService.Mul:input_type -> ArithRequest
 	1, // 2: ArithService.Add:output_type -> ArithResponse
@@ -169,13 +170,13 @@ var file_message_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_message_proto_init() }
-func file_message_proto_init() {
-	if File_message_proto != nil {
+func init() { file_services_arith_message_proto_init() }
+func file_services_arith_message_proto_init() {
+	if File_services_arith_message_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_services_arith_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ArithRequest); i {
 			case 0:
 				return &v.state
@@ -187,7 +188,7 @@ func file_message_proto_init() {
 				return nil
 			}
 		}
-		file_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_services_arith_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ArithResponse); i {
 			case 0:
 				return &v.state
@@ -204,18 +205,18 @@ func file_message_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_message_proto_rawDesc,
+			RawDescriptor: file_services_arith_message_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_message_proto_goTypes,
-		DependencyIndexes: file_message_proto_depIdxs,
-		MessageInfos:      file_message_proto_msgTypes,
+		GoTypes:           file_services_arith_message_proto_goTypes,
+		DependencyIndexes: file_services_arith_message_proto_depIdxs,
+		MessageInfos:      file_services_arith_message_proto_msgTypes,
 	}.Build()
-	File_message_proto = out.File
-	file_message_proto_rawDesc = nil
-	file_message_proto_goTypes = nil
-	file_message_proto_depIdxs = nil
+	File_services_arith_message_proto = out.File
+	file_services_arith_message_proto_rawDesc = nil
+	file_services_arith_message_proto_goTypes = nil
+	file_services_arith_message_proto_depIdxs = nil
 }

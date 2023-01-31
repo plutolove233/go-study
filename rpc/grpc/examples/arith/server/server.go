@@ -4,22 +4,22 @@ import (
 	"context"
 	"fmt"
 	"google.golang.org/grpc"
-	"grpc-demo/pb/Arith"
+	"grpc-demo/pb/services/arith"
 	"net"
 )
 
 type server struct {
-	Arith.UnimplementedArithServiceServer
+	arith.UnimplementedArithServiceServer
 }
 
-func (s *server) Add(ctx context.Context, req *Arith.ArithRequest) (*Arith.ArithResponse, error) {
-	return &Arith.ArithResponse{
+func (s *server) Add(ctx context.Context, req *arith.ArithRequest) (*arith.ArithResponse, error) {
+	return &arith.ArithResponse{
 		C: req.GetA() + req.GetB(),
 	}, nil
 }
 
-func (s *server) Mul(ctx context.Context, req *Arith.ArithRequest) (*Arith.ArithResponse, error) {
-	return &Arith.ArithResponse{
+func (s *server) Mul(ctx context.Context, req *arith.ArithRequest) (*arith.ArithResponse, error) {
+	return &arith.ArithResponse{
 		C: req.GetA() * req.GetB(),
 	}, nil
 }
@@ -33,7 +33,7 @@ func main() {
 	}
 
 	serve := grpc.NewServer()
-	Arith.RegisterArithServiceServer(serve, &server{})
+	arith.RegisterArithServiceServer(serve, &server{})
 
 	err = serve.Serve(lis)
 	if err != nil {

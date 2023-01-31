@@ -5,7 +5,7 @@ import (
 	"flag"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"grpc-demo/pb/Arith"
+	"grpc-demo/pb/services/arith"
 	"log"
 	"time"
 )
@@ -21,11 +21,11 @@ func main() {
 	}
 	defer conn.Close()
 
-	c := Arith.NewArithServiceClient(conn)
+	c := arith.NewArithServiceClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	r, err := c.Add(ctx, &Arith.ArithRequest{
+	r, err := c.Add(ctx, &arith.ArithRequest{
 		A: 10,
 		B: 20,
 	})
