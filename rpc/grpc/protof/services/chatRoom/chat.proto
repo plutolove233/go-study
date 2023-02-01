@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package chat;
+
+import "models/hello.proto";
+
+option go_package = "grpc-demo/pb/services/chat";
+
+service ChatRoom {
+    rpc Chat(stream hello.HelloRequest) returns (stream hello.HelloResponse);
+}

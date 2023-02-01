@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package book;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "grpc-demo/pb/models";
+
+message Book{
+    string title = 1;
+    int32 price = 2;
+    string author = 3;
+    google.protobuf.Timestamp date = 4;
+}
