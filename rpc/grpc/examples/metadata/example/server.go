@@ -31,7 +31,7 @@ func (s *server) Add(ctx context.Context, req *arith.ArithRequest) (*arith.Arith
 		"location": []string{"China", "Jiangsu"},
 	}
 
-	grpc.SendHeader(ctx, header)
+	grpc.SetHeader(ctx, header)
 	return &arith.ArithResponse{C: req.GetA() + req.GetB()}, nil
 }
 
