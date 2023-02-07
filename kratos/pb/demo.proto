@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package demo;
+
+option go_package = "demo/models;model";
+
+message Hello {
+    string req = 1;
+}
