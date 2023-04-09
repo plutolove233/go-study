@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package blog.api.v1;
+
+option go_package = "demo/api/blog/v1";
+
+import "google/api/annotations.proto";
+
+message Article {
+    string id = 1;
+    string content = 2;
+    string title = 3;
+    int64 like = 4;
+}
+
+service BlogService {
+    rpc CreateArticle (Article) returns (Article) {
+        option (google.api.http) = {
+            post: "/v1/article"
+            body: "*"
+        };
+    }
+}

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package v3;
+
+option go_package = "buf/api/v3";
+
+import "google/api/annotations.proto";
+
+message Book {
+    string name = 1;
+    string author = 2;
+    float price = 3;
+}
+
+message CreateBookReq {
+    string author = 1;
+}
+
+message CreateBookResp {
+    Book book = 1;
+}
+
+service BookService {
+    rpc CreateBook (CreateBookReq) returns (CreateBookResp) {
+        option (google.api.http) = {
+            post: "/v1/book";
+            body: "*";
+        };
+    }
+}

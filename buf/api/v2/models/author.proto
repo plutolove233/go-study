@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package models;
+
+option go_package = "buf/api/v2/models";
+
+message Author {
+    string name = 1;
+    int32 age = 2;
+}

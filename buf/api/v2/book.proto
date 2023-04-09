@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package v2;
+
+option go_package = "buf/api/v2";
+
+import "models/request.proto";
+
+service BookService {
+    rpc CreateBook (models.CreateBookReq) returns (models.CreateBookResp);
+}

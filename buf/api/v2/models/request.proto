@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package models;
+
+option go_package="buf/api/v2/models";
+
+import "models/book.proto";
+
+message CreateBookReq {
+    string name = 1;
+}
+
+message CreateBookResp {
+    models.Book book = 1;
+}

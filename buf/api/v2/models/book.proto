@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package models;
+
+option go_package = "buf/api/v2/models";
+
+import "models/author.proto";
+
+message Book {
+    string name = 1;
+    models.Author author = 2;
+    float price = 3;
+}
