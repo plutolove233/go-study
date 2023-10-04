@@ -2,3 +2,4 @@
 *.exe
 *.sum
 generics/introductions.md
+*.crt
