@@ -33,6 +33,11 @@ func main() {
 	// 可以连接多个broker组成的集群
 	opt.AddBroker(broker)
 	opt.SetClientID("mqttx_123456")
+
+	// 设置遗嘱信息，遗嘱信息只会在出现意外情况时才会发送
+	lastWillData := NewData("finished!")
+	b, _ := json.Marshal(lastWillData)
+	opt.SetBinaryWill("local/info", b, 0, false)
 	opt.SetKeepAlive(time.Second * 1)
 	/*
 		if you use tls, or we don't suggest you set username and password
@@ -57,4 +62,7 @@ func main() {
 		}
 		client.Publish("local/info", 0, false, b)
 	}
+
+	// 正常结束，不会发送遗嘱信息
+	client.Disconnect(250)
 }
