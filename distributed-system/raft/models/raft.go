@@ -63,6 +63,7 @@ func (rf *Raft) Start() {
 	for {
 		switch rf.role {
 		case Leader:
+			log.Println("send heartbeat message...")
 			rf.heartbeat()
 		case Follower:
 			select {
