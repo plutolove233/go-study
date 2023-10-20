@@ -29,6 +29,7 @@ func (rf *Raft) RequestVote(args *raftrpc.RequestVoteArgs, reply *raftrpc.Reques
 	if args.Term < rf.currentTerm {
 		reply.Term = rf.currentTerm
 		reply.VoteGranted = false
+		return nil
 	}
 	if args.Term > rf.currentTerm {
 		rf.mu.Lock()
@@ -36,6 +37,7 @@ func (rf *Raft) RequestVote(args *raftrpc.RequestVoteArgs, reply *raftrpc.Reques
 		rf.role = Follower
 		rf.votedFor = -1
 		rf.mu.Unlock()
+		return nil
 	}
 	if rf.votedFor == -1 {
 		rf.votedFor = args.CandidateId
@@ -55,6 +57,7 @@ func (rf *Raft) AppendEntities(args *raftrpc.AppendEntitiesArgs, reply *raftrpc.
 		rf.role = Follower
 		log.Println("change to follower")
 		rf.votedFor = -1
+		rf.currentLeader = args.LeaderId
 		rf.mu.Unlock()
 	}
 	rf.mu.Lock()

@@ -17,6 +17,8 @@ const (
 	Candidate = 2 // 候选人
 )
 
+var roles = []string{"Leader", "Follower", "Candidate"}
+
 type ApplyMsg struct {
 	CommandValid bool
 	Command      interface{}
@@ -54,14 +56,18 @@ func NewRaft(me int, peers []*raftrpc.ClientEnd) *Raft {
 		currentLeader: -1,
 		votedFor:      -1,
 		voteCount:     0,
-		votedChan:     make(chan bool),
-		heartbeatChan: make(chan bool),
+		votedChan:     make(chan bool, 5),
+		heartbeatChan: make(chan bool, 5),
 	}
 }
 
 func (rf *Raft) Start() {
 	for {
-		switch rf.role {
+		rf.mu.Lock()
+		role := rf.role
+		rf.mu.Unlock()
+		log.Println("current role is ", roles[role])
+		switch role {
 		case Leader:
 			log.Println("send heartbeat message...")
 			rf.heartbeat()
@@ -100,6 +106,7 @@ func (rf *Raft) electionTimeout() time.Duration {
 // 选举过程，按论文Section5.2描述的过程来实现
 func (rf *Raft) Elect() bool {
 
+	wg := sync.WaitGroup{}
 	for i, client := range rf.peers {
 		if rf.me == i {
 			continue
@@ -111,6 +118,7 @@ func (rf *Raft) Elect() bool {
 		reply := raftrpc.RequestVoteReply{
 			VoteGranted: false,
 		}
+		wg.Add(1)
 		go func(client *raftrpc.ClientEnd) {
 			ok := client.Call("Raft.RequestVote", &args, &reply)
 			if !ok {
@@ -119,14 +127,19 @@ func (rf *Raft) Elect() bool {
 			if reply.VoteGranted {
 				rf.mu.Lock()
 				rf.voteCount += 1
-				if rf.voteCount > len(rf.peers)/2+1 {
-					rf.votedChan <- true
-				}
 				rf.mu.Unlock()
 			}
 			log.Printf("Get vote reply from %s, reply=%+v\n", client.Address, reply)
+			wg.Done()
 		}(client)
 	}
+
+	wg.Wait()
+	rf.mu.Lock()
+	if rf.voteCount > len(rf.peers)/2 {
+		rf.votedChan <- true
+	}
+	rf.mu.Unlock()
 
 	select {
 	case <-time.After(rf.electionTimeout()):
