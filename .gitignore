@@ -3,3 +3,4 @@
 *.sum
 generics/introductions.md
 *.crt
+*.pem

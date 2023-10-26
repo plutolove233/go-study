@@ -12,7 +12,7 @@ var addr = flag.String("addr", "localhost:8972", "server address")
 
 func main() {
 	flag.Parse()
-	cert, err := tls.LoadX509KeyPair("server.pem", "server.key")
+	cert, err := tls.LoadX509KeyPair("server.crt", "server.key")
 	if err != nil {
 		log.Println(err)
 		return
