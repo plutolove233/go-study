@@ -3,8 +3,10 @@ package main
 import (
 	"crypto/rand"
 	"crypto/tls"
+	"encoding/binary"
 	"fmt"
 	"golang.org/x/net/http2/hpack"
+	"net"
 	"time"
 )
 
@@ -30,6 +32,79 @@ const (
 	FrameWindowUpdate FrameType = 0x8
 	FrameContinuation FrameType = 0x9
 )
+
+/* Http2 HeaderFrame Structure
++----------------------------------------------+
+|                Length(24)                    |
++--------------+---------------+---------------+
+|    Type(8)   |    Flags(8)   |
++--------------+---------------+-------------------------------+
+|R|                 Stream Identifier(31)                      |
++=+============================================================+
+|                   HeaderFrame Payload (0...)                     ...
++--------------------------------------------------------------+
+*/
+
+type FrameHeader struct {
+	Length   uint32
+	Type     FrameType
+	Flags    uint8
+	StreamID uint32
+}
+
+func ReadHeader(buf []byte, conn net.Conn) (FrameHeader, error) {
+	_, err := conn.Read(buf)
+	if err != nil {
+		return FrameHeader{}, err
+	}
+	return FrameHeader{
+		Length:   (uint32(buf[0])<<16 | uint32(buf[1])<<8 | uint32(buf[2])),
+		Type:     FrameType(buf[3]),
+		Flags:    buf[4],
+		StreamID: binary.BigEndian.Uint32(buf[5:]) & (1<<31 - 1),
+	}, nil
+}
+
+// HeaderFrame 对应类型为HEADERS的数据帧
+type HeaderFrame struct {
+	FrameHeader
+	Payload map[string]string
+}
+
+// ReadPayload 实现了根据请求头部的长度字段，读取负载信息，并加载信息到HeaderFrame上
+func (h *HeaderFrame) ReadPayload(conn net.Conn) error {
+	payload := make([]byte, h.Length)
+	_, err := conn.Read(payload)
+	if err != nil {
+		return err
+	}
+	decoder := hpack.NewDecoder(4096, nil)
+	full, _ := decoder.DecodeFull(payload)
+	fmt.Println("Decode Head HeaderFrame PayLoad=", full)
+	for _, headerField := range full {
+		h.Payload[headerField.Name] = headerField.Value
+	}
+	fmt.Println("Unmarshal Head HeaderFrame to HeaderFrame=", h.Payload)
+	return nil
+}
+
+// Response 表示想连接中写信息
+func (h *HeaderFrame) Response(conn net.Conn, resp []byte) (err error) {
+	_, err = conn.Write(resp)
+	return
+}
+
+func handleOtherFrame(typename string, conn net.Conn, length uint32) {
+	// just read
+	payload := make([]byte, length)
+	conn.Read(payload)
+	fmt.Printf("Read %s PayLoad=%v\n", typename, payload)
+}
+
+// TODO: we should implement other frame type
+// eg :type DataFrame struct {
+//	 	...
+// }
 
 func main() {
 	certs := []tls.Certificate{}
@@ -64,83 +139,21 @@ func main() {
 	}
 	for {
 		buf := make([]byte, FRAME_HEAD_LEN)
-		conn.Read(buf)
-		length := (uint32(buf[0])<<16 | uint32(buf[1])<<8 | uint32(buf[2]))
-		frameType := FrameType(buf[3])
-		switch frameType {
-		case FrameSettings:
-			// just read
-			payload := make([]byte, length)
-			conn.Read(payload)
-			fmt.Println("Setting Frame PayLoad=", payload)
+		frameHeader, _ := ReadHeader(buf, conn)
+		switch frameHeader.Type {
 		case FrameHeaders:
-			payload := make([]byte, length)
-			conn.Read(payload)
-			decoder := hpack.NewDecoder(4096, nil)
-			full, _ := decoder.DecodeFull(payload)
-			fmt.Println("Head Frame PayLoad=", full)
-
-			resp := []byte{0, 0, 1, 0, 0, 0, 0, 0, 0, 2}
-			conn.Write(resp)
+			frame := HeaderFrame{frameHeader, make(map[string]string)}
+			err = frame.ReadPayload(conn)
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+			//resp := []byte{0, 0, 1, 0, 0, 0, 0, 0, 0, 2}
+			//frame.Response(conn, resp)
 		case FrameData:
-			payload := make([]byte, length)
-			conn.Read(payload)
-			fmt.Println("Data Frame PayLoad=", payload)
-		case FramePriority:
-			payload := make([]byte, length)
-			conn.Read(payload)
-			fmt.Println("Priority Frame PayLoad=", payload)
-		case FrameRSTStream:
-			payload := make([]byte, length)
-			conn.Read(payload)
-			fmt.Println("RST Frame PayLoad=", payload)
-		case FramePushPromise:
-			payload := make([]byte, length)
-			conn.Read(payload)
-			fmt.Println("Push Promise Frame PayLoad=", payload)
-		case FramePing:
-			payload := make([]byte, length)
-			conn.Read(payload)
-			fmt.Println("Ping Frame PayLoad=", payload)
-		case FrameGoAway:
-			payload := make([]byte, length)
-			conn.Read(payload)
-			fmt.Println("Go Away Frame PayLoad=", payload)
-		case FrameWindowUpdate:
-			payload := make([]byte, length)
-			conn.Read(payload)
-			fmt.Println("Window Update Frame PayLoad=", payload)
-		case FrameContinuation:
-			payload := make([]byte, length)
-			conn.Read(payload)
-			fmt.Println("Continuation Frame PayLoad=", payload)
+			handleOtherFrame("FrameData", conn, frameHeader.Length)
+		default:
+			handleOtherFrame("OtherFrame", conn, frameHeader.Length)
 		}
 	}
-
-	//for {
-	//	rBuf := bufio.NewReader(conn)
-	//	frame, err := http2.ReadFrameHeader(rBuf)
-	//	if err != nil {
-	//		fmt.Println(err)
-	//		break
-	//	}
-	//	// Decode the frame
-	//	switch frame.Header().Type {
-	//	case http2.FrameHeaders:
-	//		fmt.Println("StreamID", frame.Header())
-	//		var headPayload []byte
-	//		length := frame.Header().Length
-	//		headPayload = make([]byte, length)
-	//
-	//		_, err := io.ReadFull(conn, headPayload[:length])
-	//		if err != nil {
-	//			fmt.Println("read header payload failed, err=", err)
-	//			return
-	//		}
-	//		fmt.Println(string(headPayload))
-	//
-	//	case http2.FrameData:
-	//		fmt.Println("data", frame.Header())
-	//	}
-	//}
 }
