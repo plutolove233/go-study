@@ -4,3 +4,4 @@
 generics/introductions.md
 *.crt
 *.pem
+go.work
