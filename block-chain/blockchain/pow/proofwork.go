@@ -21,7 +21,7 @@ func (b *Block) GetBase4Nonce(nonce int64) []byte {
 		utils.ToHexInt(int64(nonce)),
 		b.Target,
 		b.PrevHash,
-		b.Data,
+		b.GetTransactionHash(),
 	}, []byte{})
 	return data
 }

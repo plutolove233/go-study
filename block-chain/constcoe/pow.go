@@ -13,4 +13,5 @@ package constcoe
 */
 const (
 	Difficulty = 20
+	InitCoin   = 1000
 )
