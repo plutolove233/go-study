@@ -5,3 +5,4 @@ generics/introductions.md
 *.crt
 *.pem
 go.work
+.DS_Store
