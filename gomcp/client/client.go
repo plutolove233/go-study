@@ -44,6 +44,19 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Println()
+    fmt.Println("资源列表:")
+    resourcesRequest := mcp.ListResourcesRequest{}
+    resources, err := sseClient.ListResources(ctx, resourcesRequest)
+    if err != nil {
+        panic(err)
+    }
+    for _, resource := range resources.Resources {
+        fmt.Printf("- uri: %s, name: %s, description: %s, MIME类型: %s\n", resource.URI, resource.Name, resource.Description, resource.MIMEType)
+    }
+
+	fmt.Println("工具列表:")
 	for _, tool := range tools.Tools {
 		fmt.Printf("- %s: %s\n", tool.Name, tool.Description)
 		fmt.Println("参数:", tool.InputSchema.Properties)
